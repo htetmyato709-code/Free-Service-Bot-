@@ -320,3 +320,23 @@ def process_broadcast_msg(message):
 if __name__ == "__main__":
     print("Bot is running...")
     bot.infinity_polling(skip_pending=True)
+import threading
+from flask import Flask
+
+# Keep-alive web server
+app = Flask('')
+
+@app.route('/')
+def home():
+    return "Bot is alive!"
+
+def run_flask():
+    app.run(host='0.0.0.0', port=8080)
+
+if __name__ == "__main__":
+    # Flask Server ကို Background Thread အနေနဲ့ Run မယ်
+    t = threading.Thread(target=run_flask)
+    t.start()
+    
+    print("Bot is running...")
+    bot.infinity_polling(skip_pending=True)
